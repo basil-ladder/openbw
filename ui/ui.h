@@ -563,7 +563,7 @@ struct ui_functions: ui_util_functions {
 	bool window_closed = false;
 
 	xy screen_pos;
-	uint32_t vision = 255;
+	uint32_t vision = 0;
 
 	size_t screen_width;
 	size_t screen_height;
@@ -785,7 +785,7 @@ struct ui_functions: ui_util_functions {
 		{
 			for (size_t tile_x = screen_tile.from.x; tile_x != screen_tile.to.x; ++tile_x)
 			{
-				if (vision != 255 && (~tile->visible & vision) == 0)
+				if (vision && (~tile->visible & vision) == 0)
 				{
 					int screen_x = tile_x * 32 - screen_pos.x;
 					int screen_y = tile_y * 32 - screen_pos.y;
@@ -1423,7 +1423,7 @@ struct ui_functions: ui_util_functions {
 				auto val = bitmap[55 / sizeof(vr4_entry::bitmap_t)];
 				size_t shift = 8 * (55 % sizeof(vr4_entry::bitmap_t));
 				val >>= shift;
-				*p++ = (vision != 255 && (~tile.visible & vision) == 0) ? dark[(uint8_t)val] : (uint8_t)val;
+				*p++ = (vision && (~tile.visible & vision) == 0) ? dark[(uint8_t)val] : (uint8_t)val;
 			}
 			p += pitch;
 		}
