@@ -801,27 +801,22 @@ struct ui_functions: ui_util_functions {
 						offset_y = -screen_y;
 					}
 
-					uint8_t *dst = data + screen_y * data_pitch + screen_x;
+					uint8_t *dst = data + (screen_y + offset_y) * data_pitch + screen_x;
 
 					size_t width = 32;
 					size_t height = 32;
 
 					width = std::min(width, screen_width - screen_x);
 					height = std::min(height, screen_height - screen_y);
-					for (size_t y = 0; y < 32; y++)
+					for (size_t y = height - offset_y; y > 0; y--)
 					{
-						if (y >= offset_y && y < height)
+						dst += offset_x;
+						for (size_t x = width - offset_x; x > 0; x--)
 						{
-							for (size_t x = 0; x < 32; x++)
-							{
-								if (x >= offset_x && x < width)
-								{
-									*dst = dark[*dst];
-								}
-								dst++;
-							}
+							*dst = dark[*dst];
+							dst++;
 						}
-						dst -= 32;
+						dst -= width;
 						dst += data_pitch;
 					}
 				}
