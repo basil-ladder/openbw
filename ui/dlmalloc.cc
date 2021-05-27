@@ -584,7 +584,7 @@ MAX_RELEASE_CHECK_RATE   default: 4095 unless not HAVE_MMAP
 #endif  /* HAVE_MORECORE */
 #endif  /* DARWIN */
 
-#if defined __cplusplus && (__GNUC__ >= 3 || __GNUC_MINOR__ >= 8) && !defined(__CYGWIN__)
+#if defined __cplusplus && (__GNUC__ >= 3 || __GNUC_MINOR__ >= 8) && !defined(__CYGWIN__) && !defined(__APPLE_CC__)
     #define DLTHROW	throw ()
 #else
     #define DLTHROW
